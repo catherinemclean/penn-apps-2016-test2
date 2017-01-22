@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+<html lang="en">
+ 
+<head>
+    <title>Growing Up Elsewhere</title>
+ 
+ 
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+</head>
+ 
+<body>
+ {% block content %}
+    <div class="container">
+        <div class="header">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation"><a href="homepage.html">Home</a>
+                    </li>
+                    <li role="presentation"><a href="about.html">About</a>
+                    </li>
+                    <li role="presentation" class="active"><a href="match.html">Match Me!</a>
+                    </li>
+                    <li role="presentation"><a href="charities.html">Charities</a>
+                    </li>
+                </ul>
+            </nav>
+            <h3 class="text-muted">Growing Up Elsewhere</h3>
+        </div>
+ 
+        <div class="jumbotron">
+            <h1>Match me!</h1>
+            
+            <p>Fill out the information below, and we'll match you with a state!</p>
+            
+        </div>
+        <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                {{ wtf.quick_form(form) }}
+            </div>
+        </div>
+        <div class="row">
+            {% for id in ids %}
+                <h2>Bar chart for {{choice}}</h2>
+                <div id="{{id}}"></div>
+            {% endfor %}
+        </div>
+         <div>
+           
+        </div>
+    </div>
+  <div class="container">
+        <div class="row">
+            {% for id in id2 %}
+                <h2>Scatter plot for {{state}}</h2>
+                <div id="{{id}}"></div>
+            {% endfor %}
+        </div>
+         <div>
+           
+        </div>
+    </div>
+ <footer>
+        <!-- D3.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <!-- Plotly.js -->
+    <script src="https://d14fo0winaifog.cloudfront.net/plotly-basic.js"></script>
+
+    <script type="text/javascript">
+
+        var graphs = {{graphJSON | safe}}
+        var graph2 = {{graphJSON2 | safe}};
+        var ids = {{ids | safe}};
+        var id2 = {{id2 | safe}};
+        //var data = {{data | safe}}
+        for(var i in graphs) {
+            Plotly.plot(ids[i], // the ID of the div, created above
+                        graphs[i].data,
+                        graphs[i].layout || {});
+        }
+        for(var x in graph2) {
+            Plotly.plot(id2[x], // the ID of the div, created above
+                        graph2[x].data,
+                        graph2[x].layout || {});
+        }
+
+    </script>
+        </footer>
+ 
+    </div>
+</body>
+ 
+</html>
+{% endblock %}
